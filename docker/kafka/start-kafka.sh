@@ -11,7 +11,7 @@ echo $ZOOKEEPER
 cat <<EOF > $KAFKA_HOME/config/server.properties
 broker.id.generation.enable=true
 listeners=PLAINTEXT://$ipaddress:9092
-advertised.listeners=PLAINTEXT://10.0.1.24:$dockerport
+advertised.listeners=PLAINTEXT://${ADVERTISED_LISTENER}:$dockerport
 num.network.threads=3
 num.io.threads=8
 socket.send.buffer.bytes=102400
