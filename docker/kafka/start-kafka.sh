@@ -10,8 +10,11 @@ echo $ZOOKEEPER
 
 cat <<EOF > $KAFKA_HOME/config/server.properties
 broker.id.generation.enable=true
-listeners=PLAINTEXT://$ipaddress:9092
-advertised.listeners=PLAINTEXT://${ADVERTISED_LISTENER}:$dockerport
+#control.plane.listener.name=INTERNAL
+listeners=INTERNAL://${ipaddress}:9092,EXTERNAL://${ipaddress}:19092
+advertised.listeners=INTERNAL://${ipaddress}:9092,EXTERNAL://${ADVERTISED_LISTENER}:${dockerport}
+listener.security.protocol.map=INTERNAL:PLAINTEXT,EXTERNAL:PLAINTEXT
+inter.broker.listener.name=INTERNAL
 num.network.threads=3
 num.io.threads=8
 socket.send.buffer.bytes=102400
