@@ -99,6 +99,15 @@ docker exec -it docker-kafka-1 /opt/kafka/bin/kafka-topics.sh \
 --bootstrap-server 192.168.43.232:49272
 ```
 
+Kafka consume data
+
+```shell
+docker exec -it docker-kafka-1 /opt/kafka/bin/kafka-console-consumer.sh \
+--bootstrap-server 192.168.43.232:49272 \
+--offset earliest \
+--topic gson-topic \
+--partition 0
+```
 
 ## Zookeeper
 
