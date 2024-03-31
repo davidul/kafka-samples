@@ -7,16 +7,24 @@ services:
       - "2181:2181"
 
   kafka:
-    build:
-      context: ./kafka
-      dockerfile: Dockerfile
+    container_name: kafka
+    image: ${KAFKA_IMAGE}
     ports:
       - '9092'
       - '19092'
     environment:
       ZOOKEEPER: zookeeper:2181
-      ADVERTISED_LISTENER: 192.168.43.232
+      ADVERTISED_LISTENER: 172.20.10.2
     depends_on:
       - zookeeper
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+
+#  kafka-admin-boot:
+#    image: kafka-admin-boot
+#    ports:
+#      - '8080:8080'
+#    environment:
+#      KAFKA_BOOTSTRAP: kafka:9092
+#    depends_on:
+#      - kafka
