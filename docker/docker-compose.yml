@@ -1,11 +1,54 @@
 version: "3"
 services:
-  zookeeper:
-    container_name: zookeeper
+  zookeeper-1:
+    container_name: zookeeper-1
     image: zookeeper
+    hostname: zookeeper-1
     ports:
       - "2181:2181"
+      - "2888:2888"
+      - "3888:3888"
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_PEER_PORT: 2888
+      ZOOKEEPER_LEADER_PORT: 3888
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOO_MY_ID: 1
+      ZOO_STANDALONE_ENABLED: true
+      ZOO_ADMINSERVER_ENABLED: true
+      ZOOKEEPER_SERVERS: "localhost:2888:3888;zookeeper-1:12888:13888;zookeeper-2:22888:23888"
 
+  zookeeper-2:
+    container_name: zookeeper-2
+    image: zookeeper
+    hostname: zookeeper-2
+    ports:
+      - "12181:12181"
+      - "12888:12888"
+      - "13888:13888"
+    environment:
+      ZOOKEEPER_SERVER_ID: 2
+      ZOOKEEPER_CLIENT_PORT: 12181
+      ZOOKEEPER_PEER_PORT: 12888
+      ZOOKEEPER_LEADER_PORT: 13888
+      ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_INIT_LIMIT: 5
+      ZOOKEEPER_SYNC_LIMIT: 2
+      ZOO_MY_ID: 2
+      ZOO_STANDALONE_ENABLED: true
+      ZOO_ADMINSERVER_ENABLED: true
+      ZOOKEEPER_SERVERS: "zookeeper-1:2888:3888;localhost:12888:13888;zookeeper-2:22888:23888"
+
+#volumes:
+#  data_dir:
+#    driver: local # Define the driver and options under the volume name
+#    driver_opts:
+#      type: none
+#      device: ./kafka_data
+#      o: bind
   kafka:
     container_name: kafka
     image: ${KAFKA_IMAGE}
@@ -13,10 +56,11 @@ services:
       - '9092'
       - '19092'
     environment:
-      ZOOKEEPER: zookeeper:2181
+      ZOOKEEPER: zookeeper-1:2181
       ADVERTISED_LISTENER: 172.20.10.2
     depends_on:
-      - zookeeper
+      - zookeeper-1
+      - zookeeper-2
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
 
