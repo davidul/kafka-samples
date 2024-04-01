@@ -1,5 +1,9 @@
 package davidul.basic;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import davidul.basic.stream.LocalDateTimeDeserializer;
+import davidul.basic.stream.LocalDateTimeSerializer;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.Serdes;
@@ -7,9 +11,12 @@ import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.apache.kafka.streams.StreamsConfig;
 
+import java.time.LocalDateTime;
 import java.util.Properties;
 
 public class Config {
+
+    public static final String BOOTSTRAP = "localhost:9092";
 
     public static Properties producerProperties(String bootstrap){
         Properties properties = new Properties();
@@ -36,5 +43,12 @@ public class Config {
         properties.setProperty(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.StringSerde.class.getName());
         properties.setProperty(StreamsConfig.APPLICATION_ID_CONFIG, "stream-demo");
         return properties;
+    }
+
+    public static Gson gson() {
+        GsonBuilder gsonBuilder = new GsonBuilder();
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
+        gsonBuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
+        return gsonBuilder.create();
     }
 }

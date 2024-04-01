@@ -12,23 +12,27 @@ import java.util.Collections;
 public class Consumer {
 
     private final KafkaConsumer<String, String> kafkaConsumer;
-    private final Logger logger = LoggerFactory.getLogger(Consumer.class);
+    private final static Logger logger = LoggerFactory.getLogger(Consumer.class);
 
-    public Consumer(String bootstrap){
+    public static void main(String[] args) {
+        logger.info("Starting consumer");
+        Consumer consumer = new Consumer(Config.BOOTSTRAP);
+        consumer.consume("my-topic");
+    }
+
+    public Consumer(String bootstrap) {
         this.kafkaConsumer = new KafkaConsumer<>(Config.consumerProperties(bootstrap, "group1"));
     }
 
-    public void consume(String topic){
+    public void consume(String topic) {
         this.kafkaConsumer.subscribe(Collections.singletonList(topic));
-        while(true){
-            logger.info("Before !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            final ConsumerRecords<String, String> records = this.kafkaConsumer.poll(Duration.ofMillis(1000));
-            logger.info("After ##########################################");
-            for(ConsumerRecord<String, String> r : records){
-                logger.info("Partition: " + r.partition());
-                logger.info("Headers: " + r.headers());
-                logger.info("Key " + r.key() + " Value:" + r.value());
-            }
+        logger.info("Before !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        final ConsumerRecords<String, String> records = this.kafkaConsumer.poll(Duration.ofMillis(1000));
+        logger.info("After ##########################################");
+        for (ConsumerRecord<String, String> r : records) {
+            logger.info("Partition: " + r.partition());
+            logger.info("Headers: " + r.headers());
+            logger.info("Key " + r.key() + " Value:" + r.value());
         }
     }
 }
