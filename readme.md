@@ -8,19 +8,30 @@ part of the image creation. You can download it directly
 from here
 [Kafka downloads](https://kafka.apache.org/downloads)
 
+Use 
+```shell
+make download-kafka
+```
+Kafka version is specified in `docker/.env` file.
+
+
 Inside the Dockerfile is a COPY instruction, place the Kafka
 archive to `docker\kafka` or adjust the Dockerfile itself.
 
 ```dockerfile
-COPY kafka_2.13-3.0.0.tgz /tmp/
+COPY kafka_$SCALA_VERSION-$KAFKA_VERSION.tgz /tmp/
 ```
 
 Kafka version is provided as build argument, you 
 can override it from command line.
 Default values
 ```dockerfile
-ARG kafka_version=3.0.0
+ARG kafka_version=3.6.0
 ARG scala_version=2.13
+```
+
+```shell
+kcat -L -b localhost:9092
 ```
 
 ## Network setup
