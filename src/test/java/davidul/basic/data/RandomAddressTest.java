@@ -47,4 +47,12 @@ public class RandomAddressTest extends TestCase {
             assertNotNull(event.getEventAddress().getStreetAddress());
         });
     }
+
+    public void testGetEventsJson() {
+        RandomAddress randomAddress = new RandomAddress();
+        randomAddress.getEvents(5)
+                .forEach(event -> {
+                    assertNotNull(Transformers.toJson(event));
+                });
+    }
 }
