@@ -30,9 +30,9 @@ public class Consumer {
         final ConsumerRecords<String, String> records = this.kafkaConsumer.poll(Duration.ofMillis(1000));
         logger.info("After ##########################################");
         for (ConsumerRecord<String, String> r : records) {
-            logger.info("Partition: " + r.partition());
-            logger.info("Headers: " + r.headers());
-            logger.info("Key " + r.key() + " Value:" + r.value());
+            logger.info("Partition: {}", r.partition());
+            logger.info("Headers: {}", r.headers());
+            logger.info("Key {} Value:{}", r.key(), r.value());
         }
     }
 }

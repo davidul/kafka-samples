@@ -16,7 +16,7 @@ import java.util.Properties;
 
 public class Config {
 
-    public static final String BOOTSTRAP = "localhost:9092";
+    public static final String BOOTSTRAP = "localhost:19092";
 
     public static Properties producerProperties(String bootstrap){
         Properties properties = new Properties();
