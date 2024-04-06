@@ -1,8 +1,8 @@
 package davidul.cluster;
 
-import com.github.javafaker.Faker;
 import davidul.basic.Config;
 import io.vertx.core.AbstractVerticle;
+import net.datafaker.Faker;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.slf4j.Logger;
@@ -27,7 +27,8 @@ public class SampleProducer extends AbstractVerticle {
         Flux
                 .range(1, 10)
                 .map(i ->
-                    Tuples.of(i.toString(), new TrekMessage(faker.starTrek().location(), faker.starTrek().specie(), faker.starTrek().character()).toString())
+                    Tuples.of(i.toString(), new TrekMessage(faker.starTrek().location(),
+                            faker.starTrek().species(), faker.starTrek().character()).toString())
         ).subscribe(t -> produce(t.getT1(), t.getT2()));
 
     }

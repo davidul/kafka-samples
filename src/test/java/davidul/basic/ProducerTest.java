@@ -1,6 +1,8 @@
 package davidul.basic;
 
 import com.google.gson.Gson;
+import davidul.basic.data.Event;
+import davidul.basic.data.RandomAddress;
 import io.vavr.collection.List;
 import org.apache.kafka.clients.admin.AdminClient;
 import org.apache.kafka.clients.admin.NewTopic;
@@ -27,8 +29,8 @@ public class ProducerTest {
 
         final Gson gson = new Gson();
         final Producer producer = new Producer(bootstrapServers);
-        final ReactorProducer reactorProducer = new ReactorProducer();
-        final List<ReactorProducer.Event> events = reactorProducer.getEvents(10);
+        final RandomAddress randomAddress = new RandomAddress();
+        final List<Event> events = randomAddress.getEvents(10);
         final List<ProducerRecord<String, String>> map = events.map(f -> new ProducerRecord<>(first_topic.name(), f.getKey(), gson.toJson(f)));
         producer.produce(map);
     }
