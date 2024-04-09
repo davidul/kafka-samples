@@ -9,16 +9,10 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.Collections;
 
-public class Consumer {
+public class Consumer<K, V> {
 
     private final KafkaConsumer<String, String> kafkaConsumer;
     private final static Logger logger = LoggerFactory.getLogger(Consumer.class);
-
-    public static void main(String[] args) {
-        logger.info("Starting consumer");
-        Consumer consumer = new Consumer(Config.BOOTSTRAP);
-        consumer.consume("my-topic");
-    }
 
     public Consumer(String bootstrap) {
         this.kafkaConsumer = new KafkaConsumer<>(Config.consumerProperties(bootstrap, "group1"));
