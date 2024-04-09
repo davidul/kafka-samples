@@ -7,16 +7,17 @@ reason kafka installation archive is NOT downloaded as a
 part of the image creation. You can download it directly 
 from here
 [Kafka downloads](https://kafka.apache.org/downloads)
+or use the shell script provided in the `Makefile`.
 
 Use 
 ```shell
 make download-kafka
 ```
-Kafka version is specified in `docker/.env` file.
+Kafka version is specified in [submodule](https://github.com/davidul/kafka-env) `kafka-env/docker/.env` file.
 
 
 Inside the Dockerfile is a COPY instruction, place the Kafka
-archive to `docker\kafka` or adjust the Dockerfile itself.
+archive to `kafka-env\docker\kafka` or adjust the Dockerfile itself.
 
 ```dockerfile
 COPY kafka_$SCALA_VERSION-$KAFKA_VERSION.tgz /tmp/

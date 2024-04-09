@@ -1,12 +1,12 @@
 
 up:
-	$(MAKE) -C docker up
+	$(MAKE) -C kafka-env up
 
 down:
-	$(MAKE) -C docker down
+	$(MAKE) -C kafka-env down
 
 cleanup:
-	$(MAKE) -C docker cleanup
+	$(MAKE) -C kafka-env cleanup
 
 download-kafka:
-	$(MAKE) -C docker download-kafka
+	$(MAKE) -C kafka-env download-kafka
